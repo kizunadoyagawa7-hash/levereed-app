@@ -48,3 +48,4 @@ src/
 - ネイビー: `#0a1628`
 
 Tailwind では `levereed-neon-blue`、`levereed-neon-green`、`levereed-navy` などで利用できます。
+deploy
