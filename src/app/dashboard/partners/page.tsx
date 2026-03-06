@@ -94,6 +94,22 @@ export default function PartnersPage() {
     setProfile(getStoredProfile());
   }, []);
 
+  const dashboardHref = "/business";
+  const currentProfile: BusinessProfile = profile ?? defaultProfile;
+
+  // Always call hooks at the top level, even if their results aren't used during loading/redirect
+  const partnersWithScore = useMemo(() => {
+    const list = DEMO_PARTNERS.map((p) => {
+      const score = computeMatchScore(currentProfile, p.profile);
+      return {
+        ...p,
+        score,
+        reason: generateMatchReason(currentProfile, p.profile, score),
+      };
+    });
+    return [...list].sort((a, b) => b.score - a.score);
+  }, [currentProfile]);
+
   if (!mounted || allowed === null) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-levereed-navy">
@@ -108,22 +124,6 @@ export default function PartnersPage() {
       </div>
     );
   }
-
-  const dashboardHref = "/business";
-
-  const currentProfile: BusinessProfile = profile ?? defaultProfile;
-
-  const partnersWithScore = useMemo(() => {
-    const list = DEMO_PARTNERS.map((p) => {
-      const score = computeMatchScore(currentProfile, p.profile);
-      return {
-        ...p,
-        score,
-        reason: generateMatchReason(currentProfile, p.profile, score),
-      };
-    });
-    return [...list].sort((a, b) => b.score - a.score);
-  }, [currentProfile]);
 
   return (
     <div className="min-h-screen bg-levereed-navy">
