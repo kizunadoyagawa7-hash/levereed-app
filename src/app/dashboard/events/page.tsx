@@ -39,7 +39,7 @@ export default function EventsPage() {
     next.add(eventId);
     setReserved(next);
     if (typeof window !== "undefined") {
-      window.localStorage.setItem("levereed_event_reservations", JSON.stringify([...next]));
+      window.localStorage.setItem("levereed_event_reservations", JSON.stringify(Array.from(next)));
     }
   };
 
